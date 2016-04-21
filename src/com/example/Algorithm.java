@@ -130,9 +130,9 @@ public class Algorithm {
     }
 
 
-    public void runAlgorithm(){
+    public void runAlgorithm(String fileName){
         // The name of the file to open.
-        String fileName = "SampleData.txt";
+       // String fileName = "SampleData.txt";
 
         String line = null;
         Map<String, Node> nodeList = new HashMap();

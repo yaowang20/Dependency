@@ -1,5 +1,6 @@
 package com.example;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +10,12 @@ import java.util.HashMap;
  */
 public class Application {
 
-        public static void main(String [] args) {
-            Algorithm al = new Algorithm();
-            al.runAlgorithm();
+    public static void main(String[] args) {
+        String fileName = null;
 
-        }
+        OpenFile  openFile = new OpenFile();
+        openFile.fileChooser();
+
+    }
+
 }
