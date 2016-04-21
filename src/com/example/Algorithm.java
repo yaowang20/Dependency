@@ -1,9 +1,6 @@
 package com.example;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -95,32 +92,43 @@ public class Algorithm {
             }
 
         }
-        printResults(nodeList);
     }
 
-    void printResults(Map<String, Node> nodeList){
-        for(String word : nodeList.keySet()){
-            Node node = nodeList.get(word);
-            String ss = node.getNodeName() + " : ";
-            Set<String> successoreList = node.getSuccessors();
-            if(successoreList != null){
-                for(String next : successoreList){
-                    ss = ss + next + "   ";
-                }
+
+    void saveResults(String originalFileName,Map<String, Node> nodeList)
+    {
+        try {
+
+            String fileName = "result_" + originalFileName;
+            File file = new File(fileName);
+
+            if (!file.exists()) {
+                file.createNewFile();
             }
-//            ss = ss + "  |  ";
-//            Set<String> predecessorList = node.getPredecessors();
-//            if(predecessorList != null){
-//                for(String next : predecessorList){
-//                    ss = ss + next + "   ";
-//                }
-//            }
 
-            System.out.println(ss);
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
 
+            for (String word : nodeList.keySet()) {
+                Node node = nodeList.get(word);
+                String ss = node.getNodeName() + " : ";
+                Set<String> successoreList = node.getSuccessors();
+                if (successoreList != null) {
+                    for (String next : successoreList) {
+                        ss = ss + next + "   ";
+                    }
+                }
+                System.out.println(ss);
+                bw.write("" + ss);
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        System.out.println("____________________________________________");
+
     }
+
 
     public void runAlgorithm(){
         // The name of the file to open.
@@ -144,14 +152,13 @@ public class Algorithm {
             bufferedReader.close();
         }  catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");
-            System.out.println(ex);
+            ex.printStackTrace();
         }  catch(IOException ex) {
             System.out.println("Error reading file '" + fileName + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
+            ex.printStackTrace();
         }
 
-        printResults(nodeList);
+        saveResults(fileName, nodeList);
 
     }
 }
