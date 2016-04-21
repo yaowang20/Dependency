@@ -51,8 +51,9 @@ public class Algorithm {
     }
 
     void processALine(String line, Map<String, Node> nodeList){
-        System.out.println(line);
-        String[] words = line.trim().split("\\s+");
+//        System.out.println(line);
+        String[] words = line.trim().split("-|\\.|,|;|\\s+");
+//        System.out.println(" line size " + words.toString() + "  " + words.length);
 
         if(words.length > 0) {
             String firstWord = words[0];
@@ -111,11 +112,11 @@ public class Algorithm {
 
             for (String word : nodeList.keySet()) {
                 Node node = nodeList.get(word);
-                String ss = node.getNodeName() + " : ";
+                String ss = node.getNodeName() + "    ";
                 Set<String> successoreList = node.getSuccessors();
                 if (successoreList != null) {
                     for (String next : successoreList) {
-                        ss = ss + next + "   ";
+                        ss = ss + next + " ";
                     }
                 }
                 System.out.println(ss);
