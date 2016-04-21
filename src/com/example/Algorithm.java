@@ -41,12 +41,14 @@ public class Algorithm {
     }
 
     void updateSuccessor(String firstNodeName, Set<String> list, Map<String, Node> nodeList){
+        Node firstNode = nodeList.get(firstNodeName);
+        Set<String> firstNode_Predecessors = firstNode.getPredecessors();
        if(list != null){
            for(String name : list){
                Node node = nodeList.get(name);
                Set<String> predecessorsSet = node.getPredecessors();
                predecessorsSet.add(firstNodeName);
-
+               predecessorsSet.addAll(firstNode_Predecessors);
            }
        }
     }
@@ -93,6 +95,7 @@ public class Algorithm {
             }
 
         }
+        printResults(nodeList);
     }
 
     void printResults(Map<String, Node> nodeList){
@@ -105,31 +108,39 @@ public class Algorithm {
                     ss = ss + next + "   ";
                 }
             }
+//            ss = ss + "  |  ";
+//            Set<String> predecessorList = node.getPredecessors();
+//            if(predecessorList != null){
+//                for(String next : predecessorList){
+//                    ss = ss + next + "   ";
+//                }
+//            }
+
             System.out.println(ss);
+
         }
+        System.out.println("____________________________________________");
     }
 
     public void runAlgorithm(){
         // The name of the file to open.
         String fileName = "SampleData.txt";
 
-        // This will reference one line at a time
         String line = null;
         Map<String, Node> nodeList = new HashMap();
 
 
         try {
-            // FileReader reads text files in the default encoding.
+
             FileReader fileReader =  new FileReader(fileName);
 
-            // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
                 processALine(line, nodeList);
             }
 
-            // Always close files.
+            // close files.
             bufferedReader.close();
         }  catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");
