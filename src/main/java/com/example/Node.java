@@ -35,6 +35,4 @@ public class Node {
     public String getNodeName(){
         return nodeName;
     }
-
-
 }

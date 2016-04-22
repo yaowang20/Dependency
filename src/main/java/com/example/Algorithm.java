@@ -27,14 +27,12 @@ public class Algorithm {
             Node node = nodeList.get(nodeName);
             Set<String> predeceesorList = node.getPredecessors();
             if (predeceesorList != null && set != null) {
-
                 for (String predecessorName : predeceesorList) {
                     Node predecessor = nodeList.get(predecessorName);
                     Set<String> predecessor_successorSet = predecessor.getSuccessors();
                     predecessor_successorSet.addAll(set);
                 }
             }
-
         }
     }
 
@@ -57,12 +55,10 @@ public class Algorithm {
         if (words.length > 0) {
             String firstWord = words[0];
             Node firstNode = addNodeList(firstWord, nodeList);
-
             if (words.length > 1) {
                 Set<String> firstNode_successorSet = firstNode.getSuccessors();
                 Set<String> newSuccessorSet = new HashSet<>();
                 Queue<String> successorQueue = new LinkedList<>();
-
                 for (int i = 1; i < words.length; i++) {
                     String next = words[i];
                     addNodeList(next, nodeList);
@@ -83,25 +79,21 @@ public class Algorithm {
                             successorQueue.add(nextNode_successorName);
                         }
                     }
-
                 }
                 updatePredecessors(firstWord, newSuccessorSet, nodeList);
                 updateSuccessor(firstWord, newSuccessorSet, nodeList);
             }
-
         }
     }
 
     void saveResults(String filePath, Map<String, Node> nodeList) {
         try {
             logger.info(" The original file is " + filePath);
-
             Path p = Paths.get(filePath);
             String originalFileName = p.getFileName().toString();
             String fileName = "result_" + originalFileName;
             String resultFilePath = filePath.replace(originalFileName, fileName);
             File file = new File(resultFilePath);
-
             if (!file.createNewFile()) {
                 if (file.delete()) {
                     if(!file.createNewFile()){
@@ -114,8 +106,7 @@ public class Algorithm {
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
-
-            System.out.println(" The result is as follows!");
+            System.out.println("The result is as follows!");
             for (String word : nodeList.keySet()) {
                 Node node = nodeList.get(word);
                 String ss = node.getNodeName() + "    ";
@@ -139,30 +130,20 @@ public class Algorithm {
     // the main algorithm
     public void runAlgorithm(String fileName) {
         logger.info(" Running the algorithm");
-
         String line;
         Map<String, Node> nodeList = new HashMap<>();
-
         try {
-
             FileReader fileReader = new FileReader(fileName);
-
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-
             while ((line = bufferedReader.readLine()) != null) {
                 processALine(line, nodeList);
             }
-
             bufferedReader.close();
+            saveResults(fileName, nodeList);
         } catch (FileNotFoundException ex) {
-            System.out.println("Unable to open file '" + fileName + "'");
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            System.out.println("Error reading file '" + fileName + "'");
-            ex.printStackTrace();
+           System.out.println("FileNotFoundException : " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        saveResults(fileName, nodeList);
-
     }
 }
