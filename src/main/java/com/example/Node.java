@@ -3,6 +3,11 @@ package com.example;
 import java.util.HashSet;
 import java.util.Set;
 
+// A -> B -> C
+// For B, A is predecessor, C is successor
+// For C, A and B both are  predecessors
+// For A, B and C both are successors
+
 public class Node {
    final String nodeName;
     Set<String> successorSet = null;
